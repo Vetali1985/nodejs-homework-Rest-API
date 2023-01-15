@@ -6,7 +6,8 @@ dotenv.config();
 mongoose.set("strictQuery", false);
 
 const { HOST_URL } = process.env;
-async function main() {
+
+(async function main() {
   try {
     await mongoose.connect(HOST_URL);
     console.log("Database connection successful");
@@ -17,5 +18,4 @@ async function main() {
     console.error(error.message);
     process.exit(1);
   }
-}
-main();
+})();
