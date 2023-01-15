@@ -1,6 +1,6 @@
 const { Contact } = require("../db/shema");
 
-const listContacts = async () => {
+const getContacts = async () => {
   const contacts = await Contact.find({});
   return contacts;
 };
@@ -19,7 +19,7 @@ const removeContact = async (id) => {
 };
 
 module.exports = {
-  listContacts,
+  getContacts,
   getContactById,
   removeContact,
   addContact,
