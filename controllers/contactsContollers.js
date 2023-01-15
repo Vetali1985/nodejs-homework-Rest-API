@@ -1,3 +1,4 @@
+const { Contact } = require("../db/shema");
 const {
   listContacts,
   getContactById,
@@ -8,7 +9,6 @@ const {
 
 async function getContacts(req, res, next) {
   const contacts = await listContacts();
-  console.log("contacts:", contacts);
   res.status(200).json(contacts);
 }
 
@@ -43,9 +43,25 @@ async function updateSomeContact(req, res, next) {
   const { name, email, phone } = req.body;
   if (!name && !email && !phone)
     return res.status(400).json({ message: "missing fields" });
-  const response = await updateContact(req.params.contactId, req.body);
+  const response = await Contact.findByIdAndUpdate(
+    req.params.contactId,
+    req.body
+  );
   if (response) return res.json(response);
   return res.status(404).json({ message: "Not found" });
+}
+async function updateStatusContact(req, res, next) {
+  const { favorite } = req.body;
+  if (!favorite)
+    return res.status(400).json({ message: "missing field favorite" });
+  const response = await Contact.findByIdAndUpdate(
+    req.params.contactId,
+    req.body
+  );
+  if (!response) {
+    return res.status(404).json({ message: "Not found" });
+  }
+  return res.json(response);
 }
 
 module.exports = {
@@ -54,4 +70,5 @@ module.exports = {
   createContact,
   deleteContact,
   updateSomeContact,
+  updateStatusContact,
 };

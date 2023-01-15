@@ -6,7 +6,9 @@ const contactsSchema = Joi.object({
   phone: Joi.string()
     .pattern(/^[0-9()]+$/, "numbers")
     .required(),
+  favorite: Joi.boolean().optional(),
 });
+
 module.exports = {
   contactsSchema,
 };
