@@ -1,14 +1,13 @@
+const { Contact } = require("../db/shema");
 const {
-  listContacts,
   getContactById,
   removeContact,
   addContact,
-  updateContact,
+  getContacts,
 } = require("../models/contacts");
 
-async function getContacts(req, res, next) {
-  const contacts = await listContacts();
-  console.log("contacts:", contacts);
+async function getAllContacts(req, res, next) {
+  const contacts = await getContacts();
   res.status(200).json(contacts);
 }
 
@@ -18,13 +17,11 @@ async function getContact(req, res, next) {
   if (!contact) {
     return res.status(404).json({ message: "Not found" });
   }
+
   return res.status(200).json(contact);
 }
 
 async function createContact(req, res, next) {
-  const { name, email, phone } = req.body;
-  if (!name || !email || !phone)
-    return res.status(400).json({ message: "missing required name field" });
   const newContact = await addContact(req.body);
   res.status(201).json(newContact);
 }
@@ -40,18 +37,26 @@ async function deleteContact(req, res, next) {
 }
 
 async function updateSomeContact(req, res, next) {
-  const { name, email, phone } = req.body;
-  if (!name && !email && !phone)
-    return res.status(400).json({ message: "missing fields" });
-  const response = await updateContact(req.params.contactId, req.body);
+  const response = await Contact.findByIdAndUpdate(
+    req.params.contactId,
+    req.body
+  );
   if (response) return res.json(response);
   return res.status(404).json({ message: "Not found" });
 }
+async function updateStatusContact(req, res, next) {
+  const response = await Contact.findByIdAndUpdate(
+    req.params.contactId,
+    req.body
+  );
+  return res.json(response);
+}
 
 module.exports = {
-  getContacts,
+  getAllContacts,
   getContact,
   createContact,
   deleteContact,
   updateSomeContact,
+  updateStatusContact,
 };

@@ -7,6 +7,8 @@ const contactsSchema = Joi.object({
     .pattern(/^[0-9()]+$/, "numbers")
     .required(),
 });
+const updateStatusSchema = Joi.object({ favorite: Joi.boolean().optional() });
 module.exports = {
   contactsSchema,
+  updateStatusSchema,
 };
