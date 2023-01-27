@@ -8,9 +8,7 @@ async function createContact(req, res, next) {
 
   await User.findByIdAndUpdate(user._id, user);
   return res.status(201).json({
-    data: {
-      contact: user.owner,
-    },
+    contact: user.owner,
   });
 }
 
@@ -19,9 +17,7 @@ async function getContact(req, res, next) {
   const { owner } = user;
 
   return res.status(200).json({
-    data: {
-      contacts: owner,
-    },
+    contacts: owner,
   });
 }
 
@@ -30,11 +26,9 @@ async function current(req, res, next) {
   const { email, subscription } = user;
 
   return res.status(200).json({
-    data: {
-      user: {
-        email,
-        subscription,
-      },
+    user: {
+      email,
+      subscription,
     },
   });
 }

@@ -15,11 +15,9 @@ async function register(req, res, next) {
       password: hashedPassword,
     });
     res.status(201).json({
-      data: {
-        user: {
-          email,
-          subscription: savedUser.subscription,
-        },
+      user: {
+        email,
+        subscription: savedUser.subscription,
       },
     });
   } catch (error) {
@@ -43,12 +41,10 @@ async function login(req, res, next) {
     throw new HttpError(401, "Email or password is wrong");
   }
   const token = jwt.sign({ id: storedUser._id }, process.env.JWT_SECRET, {
-    expiresIn: "10h",
+    expiresIn: "1h",
   });
   return res.json({
-    data: {
-      token,
-    },
+    token,
   });
 }
 
