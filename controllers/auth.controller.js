@@ -2,6 +2,7 @@ const { HttpError } = require("../helpers");
 const bcrypt = require("bcrypt");
 const { User } = require("../models/user");
 const jwt = require("jsonwebtoken");
+const gravatar = require("gravatar");
 
 // const { JWT_SECRET } = process.env;
 
@@ -10,6 +11,7 @@ async function register(req, res, next) {
   const salt = await bcrypt.genSalt();
   const hashedPassword = await bcrypt.hash(password, salt);
   try {
+    const avatarURL = gravatar.url(email);
     const savedUser = await User.create({
       email,
       password: hashedPassword,
@@ -18,6 +20,7 @@ async function register(req, res, next) {
       user: {
         email,
         subscription: savedUser.subscription,
+        avatarURL,
       },
     });
   } catch (error) {
