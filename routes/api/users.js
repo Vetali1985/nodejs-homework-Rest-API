@@ -3,6 +3,7 @@ const {
   createContact,
   getContact,
   current,
+  verifyMail,
 } = require("../../controllers/userController");
 const { tryCatchWrapper } = require("../../helpers");
 const { auth } = require("../../middlewares");
@@ -16,6 +17,7 @@ userRouter.post(
 );
 userRouter.get("/contact", tryCatchWrapper(auth), tryCatchWrapper(getContact));
 userRouter.get("/current", tryCatchWrapper(auth), tryCatchWrapper(current));
+userRouter.get("/verify/:token", tryCatchWrapper(verifyMail));
 
 module.exports = {
   userRouter,
